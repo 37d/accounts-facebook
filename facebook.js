@@ -2,9 +2,9 @@ Accounts.oauth.registerService('facebook');
 
 if (Meteor.isClient) {
 
-  Meteor.loginWithFacebook = function(options, callback) {
+  Meteor.loginWithFacebook = function (options, callback) {
     // support a callback without options
-    if (! callback && typeof options === "function") {
+    if (!callback && typeof options === "function") {
       callback = options;
       options = null;
     }
@@ -18,28 +18,24 @@ if (Meteor.isClient) {
         methodArguments: [data],
         userCallback: callback
       });
-    }
+    };
 
-    if (typeof facebookConnectPlugin != "undefined" && Meteor.settings) {
-      facebookConnectPlugin.getLoginStatus( 
-        function (response) { 
+    if (typeof facebookConnectPlugin != "undefined" && ((Meteor.settings && Meteor.settings.public && Meteor.settings.public.facebook) || options)) {
+      facebookConnectPlugin.getLoginStatus(
+        function (response) {
           if (response.status != "connected") {
-            facebookConnectPlugin.login(Meteor.settings.public.facebook.permissions,
-                fbLoginSuccess,
-                function (error) { 
-                  console.log("" + error) 
-                  // throw new Meteor.Error(500, error);
-                  callback(new Meteor.Error(500, error));
-                }
+            facebookConnectPlugin.login(options.requestPermissions || Meteor.settings.public.facebook.permissions,
+              fbLoginSuccess,
+              function (error) {
+                callback(new Meteor.Error(500, error));
+              }
             );
           } else {
             fbLoginSuccess(response);
           }
         },
-        function (error) { 
-          console.log("" + error) 
+        function (error) {
           callback(new Meteor.Error(500, error));
-          // throw new Meteor.Error(500, error);
         }
       );
     } else {
@@ -49,10 +45,10 @@ if (Meteor.isClient) {
 
 } else {
 
-  if (Meteor.settings && 
-      Meteor.settings.facebook &&
-      Meteor.settings.facebook.appId &&
-      Meteor.settings.facebook.secret) {
+  if (Meteor.settings &&
+    Meteor.settings.facebook &&
+    Meteor.settings.facebook.appId &&
+    Meteor.settings.facebook.secret) {
 
     ServiceConfiguration.configurations.remove({
       service: "facebook"
@@ -75,7 +71,7 @@ if (Meteor.isClient) {
         'services.facebook.id', 'services.facebook.username', 'services.facebook.gender'
       ]
     });
-    
+
   } else {
     console.log("Meteor settings for accounts-facebook-cordova not configured correctly.")
   }
