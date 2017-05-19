@@ -1,22 +1,24 @@
 Package.describe({
   summary: "Login service for Facebook (2.4) accounts (works with cordova)",
-  version: "0.0.6",
-  git: "https://github.com/btafel/accounts-facebook.git",
-  author: "Bryan Tafel",
-  name: "btafel:accounts-facebook-cordova",
+  version: "0.0.7",
+  git: "https://github.com/37d/accounts-facebook.git",
+  author: "37d",
+  name: "37d:accounts-facebook-cordova",
 });
 
 Package.on_use(function(api) {
-  api.versionsFrom('1.2.0.1');
-  api.use('accounts-base', ['client', 'server']);
+  api.versionsFrom('1.4');
+
+  api.use([
+    'accounts-base',
+    'accounts-facebook',
+    'service-configuration',
+  ], ['client', 'server']);
+
+  api.use([ 'http', 'underscore'], ['server']);
+
   // Export Accounts (etc) to packages using this one.
   api.imply('accounts-base', ['client', 'server']);
-  api.use('accounts-oauth', ['client', 'server']);
-  api.use('facebook-oauth', ['client', 'server']);
-
-  api.use('service-configuration', ['client', 'server']);
-  api.use('http', ['server']);
-  api.use('underscore', 'server');
 
   api.add_files('facebook_server.js', 'server');
   api.add_files("facebook.js");
