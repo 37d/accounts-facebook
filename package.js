@@ -1,6 +1,6 @@
 Package.describe({
   summary: "Login service for Facebook (2.4) accounts (works with cordova)",
-  version: "0.0.7",
+  version: "0.0.8",
   git: "https://github.com/37d/accounts-facebook.git",
   author: "37d",
   name: "37d:accounts-facebook-cordova",
