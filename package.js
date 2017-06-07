@@ -10,6 +10,8 @@ Package.on_use(function(api) {
   api.versionsFrom('1.4');
 
   api.use([
+    'meteor-base',
+    'ecmascript',
     'accounts-base',
     'accounts-facebook',
     'service-configuration',

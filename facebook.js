@@ -1,4 +1,12 @@
-Accounts.oauth.registerService('facebook');
+import _ from 'lodash';
+
+const services = Accounts.oauth.serviceNames();
+if (_.includes(services, 'facebook')) {
+  console.log("[Accounts-Facebook] facebook accounts oauth service already registered");
+} else {
+  console.log("[Accounts-Facebook] registering facebook oauth service");
+  Accounts.oauth.registerService('facebook');
+}
 
 if (Meteor.isClient) {
 
